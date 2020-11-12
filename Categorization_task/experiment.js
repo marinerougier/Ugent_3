@@ -65,16 +65,15 @@ if(!is_compatible) {
   var database = firebase.database();
 
   // prolific variables
-  var prolificID = jsPsych.data.getURLVariable("prolificID");
+  var prolificID = jsPsych.data.getURLVariable("PROLIFIC_PID");
   if(prolificID == null) {prolificID = "999";}
-  var jspsych_id  = jsPsych.data.getURLVariable("jspsych_id");
-   if(jspsych_id == null) {jspsych_id = "999";}
+  var jspsych_id = jsPsych.randomization.randomID(15); // short ID
 
   // connection status ---------------------------------------------------------------------
   // This section ensure that we don't lose data. Anytime the 
   // client is disconnected, an alert appears onscreen
   var connectedRef = firebase.database().ref(".info/connected");
-  var connection   = firebase.database().ref("VAAST_IAT/" + jspsych_id + "/")
+  var connection   = firebase.database().ref("IAT/" + jspsych_id + "/")
   var dialog = undefined;
   var first_connection = true;
 
@@ -545,7 +544,7 @@ if(is_compatible) {
         jsPsych.data.addProperties({
           //taskOrder: TaskOrder,
         });
-        window.location.href = "https://uclpsychology.co1.qualtrics.com/jfe/form/SV_0NRoqjK0V6IpikJ?jspsych_id=" + jspsych_id + "?prolificID="+ 
+        window.location.href = "https://marinerougier.github.io/Ugent_3/Rating_task/rating_task.html?jspsych_id=" + jspsych_id + "?prolificID="+ 
         prolificID;
     }
   });

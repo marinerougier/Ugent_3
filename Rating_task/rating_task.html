@@ -54,7 +54,10 @@ DESCRIPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   /* Initial variables */
   var timeline = [];
   var preloadimages = [];
-  var prolificID = jsPsych.data.getURLVariable("PROLIFIC_PID");
+  var prolificID = jsPsych.data.getURLVariable("prolificID");
+  if(prolificID == null) {prolificID = "999";}
+  var jspsych_id  = jsPsych.data.getURLVariable("jspsych_id");
+   if(jspsych_id == null) {jspsych_id = "999";}
 
   // female stimuli
   var Stim_highAtt_fem = [
@@ -606,12 +609,12 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
 
       firebase.initializeApp(config);
       var database = firebase.database();
-      id = jsPsych.randomization.randomID(15); // short ID
+      //id = jsPsych.randomization.randomID(15); // short ID
 
       /* jsPsych: add data to every trial */
       jsPsych.data.addProperties({
         prolificID: prolificID,
-        id: id,
+        jspsych_id: jspsych_id,
         //traitsOrder: traitsOrder,
         totalTime: jsPsych.totalTime()
       });
@@ -620,7 +623,7 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
     //   jsPsych.data.displayData();
 
       /* Send data to Firebase and redirect to Qualtrics */
-      database.ref("Shared_features_Halo/" + id + "/").update({subdata}).then(function() { 
+      database.ref("Shared_features_Halo/" + jspsych_id + "/").update({subdata}).then(function() { 
         console.log("data sent!");
         $("#jspsych-content").html(debrief);
         //window.location = qlink; // redirect to qualtrics
