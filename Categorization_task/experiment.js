@@ -245,7 +245,7 @@ var sample_n_iat = function(list, n) {
 // Switching to fullscreen --------------------------------------------------------------
 var fullscreen_trial = {
   type: 'fullscreen',
-  message:  'To start Task 2, please switch again to full screen </br></br>',
+  message:  'To start please switch again to full screen </br></br>',
   button_label: 'Switch to fullscreen',
   fullscreen_mode: true,
         on_load: function() {
@@ -545,9 +545,7 @@ if(is_compatible) {
           //taskOrder: TaskOrder,
         });
         window.location.href = "https://marinerougier.github.io/Ugent_3/Rating_task/rating_task.html?jspsych_id=" + jspsych_id + "?prolificID="+ 
-        prolificID;
+        prolificID + "?iat_att=" + iat_att + "?iat_adju_pot=" + iat_adju_pot;
     }
   });
 }
-
-

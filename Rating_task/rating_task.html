@@ -55,9 +55,12 @@ DESCRIPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   var timeline = [];
   var preloadimages = [];
   var prolificID = jsPsych.data.getURLVariable("prolificID");
-  if(prolificID == null) {prolificID = "999";}
   var jspsych_id  = jsPsych.data.getURLVariable("jspsych_id");
-   if(jspsych_id == null) {jspsych_id = "999";}
+  var iat_att = jsPsych.data.getURLVariable("iat_att");
+  var iat_adju_pot = jsPsych.data.getURLVariable("iat_adju_pot");
+
+  if(prolificID == null) {prolificID = "999";}
+  if(jspsych_id == null) {jspsych_id = "999";}
 
   // female stimuli
   var Stim_highAtt_fem = [
@@ -565,9 +568,9 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
   debrief += "to withdraw consent and have your data excluded, do not hesitate to contact us via Prolific Academic. If you are "; 
   debrief += "interested, you can also ask for the results of this experiment—be aware, however, that this could take several weeks "; 
   debrief += "to gather all the data we need and to analyze them. <br><br>";
-  debrief += "You can copy this code on Prolific: <b>3AAB620D</b> ";
+  debrief += "You can copy this code on Prolific: <b>68784134</b> ";
   debrief += "or you can click on the following link to validate your participation:</p>";
-  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=3AAB620D' target='_blank'>click here</a>";
+  debrief += "<a href='https://app.prolific.co/submissions/complete?cc=68784134' target='_blank'>click here</a>";
 
 
   // TIMELINE ----------------------------------------------------------------------------------------------------------
@@ -615,7 +618,8 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       jsPsych.data.addProperties({
         prolificID: prolificID,
         jspsych_id: jspsych_id,
-        //traitsOrder: traitsOrder,
+        iat_att: iat_att,
+        iat_adju_pot: iat_adju_pot,
         totalTime: jsPsych.totalTime()
       });
 
