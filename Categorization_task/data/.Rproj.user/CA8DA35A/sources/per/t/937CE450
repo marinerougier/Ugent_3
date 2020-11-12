@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1550589378278.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "937CE450",
+    "lastKnownWriteTime" : 7599382801877576760,
+    "last_content_update" : 1550589378278,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "497AE698",
+        "caption" : "dataset_vaast_trial",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=dataset_vaast_trial&cache_key=497AE698",
+        "displayedObservations" : 408,
+        "environment" : "",
+        "expression" : "dataset_vaast_trial",
+        "object" : "dataset_vaast_trial",
+        "preview" : 0,
+        "totalObservations" : 408,
+        "variables" : 4
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
