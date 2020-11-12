@@ -1,0 +1,594 @@
+<!-- 
+DESCRIPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>exp</title>
+  <script src="jspsych-6.0.3/jspsych.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-fullscreen.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-html-button-response.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-survey-text.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-survey-likert.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-survey-multi-choice.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-external-html.js"></script>
+  <script src="js/jspsych-html-slider-response_required.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/lodash.min.js"></script>
+  <script src="js/firebase.js"></script>
+  <link href="jspsych-6.0.3/css/jspsych.css" rel="stylesheet" type="text/css">
+  <style>
+  body {
+    cursor: default;
+  }
+  #jspsych-html-slider-response-next {
+    margin: 0px;
+  }
+  .imgJudge {
+  	position: fixed;
+    width: 70%;
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left:15%;
+    z-index: 2;
+  }
+  .jspsych-content-wrapper {
+    width: 900px; 
+    height: 10000px;
+  }
+</style>
+</head>
+<body></body>
+<script>
+  /* Parameters */
+  var n = 2; // number of CIs randomly sampled for each cell : has to be 25 !!!
+  var githubCIs = 'Stim_selected/'; // github CIs path
+
+  /* Initial variables */
+  var timeline = [];
+  var preloadimages = [];
+  var prolificID = jsPsych.data.getURLVariable("prolificID"); // Need to add ?prolificID={{%PROLIFIC_PID%}} at the end of the prolific survey link!
+
+  // Preview stimuli
+
+  // female stimuli
+  var Stim_highAtt_fem = [
+  "Stim_selected/female_faces/Fem_Att_1_high_blanc.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_high_blanc.jpg"
+  ];
+  
+  var Stim_medAtt_fem = [
+  "Stim_selected/female_faces/Fem_Att_1_med_blanc.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_med_blanc.jpg"
+  ];
+
+  var Stim_lowAtt_fem = [
+  "Stim_selected/female_faces/Fem_Att_1_low_blanc.jpg", 
+  "Stim_selected/female_faces/Fem_Att_2_low_blanc.jpg"
+  ];
+
+  // male stimuli
+  var Stim_highAtt_male = [
+  "Stim_selected/male_faces/Male_Att_1_high_blanc.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_high_blanc.jpg"
+  ];
+  
+  var Stim_medAtt_male = [
+  "Stim_selected/male_faces/Male_Att_1_med_blanc.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_med_blanc.jpg"
+  ];
+
+  var Stim_lowAtt_male = [
+  "Stim_selected/male_faces/Male_Att_1_low_blanc.jpg", 
+  "Stim_selected/male_faces/Male_Att_2_low_blanc.jpg"
+  ];
+
+  // Randomly picking female faces and creating a list
+  stim_high_fem = _.sampleSize(Stim_highAtt_fem, 1);
+  stim_med_fem = _.sampleSize(Stim_medAtt_fem, 1);
+  stim_low_fem = _.sampleSize(Stim_lowAtt_fem, 1);
+
+  var FaceStims_fem = _.flattenDeep([stim_high_fem, stim_med_fem, stim_low_fem]);
+  preloadimages.push(FaceStims_fem);
+
+  FaceStims_fem = FaceStims_fem.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
+  FaceStims_fem = _.shuffle(FaceStims_fem); // randomize order
+
+  // Randomly picking male faces and creating a list
+  stim_high_male = _.sampleSize(Stim_highAtt_male, 1);
+  stim_med_male = _.sampleSize(Stim_medAtt_male, 1);
+  stim_low_male = _.sampleSize(Stim_lowAtt_male, 1);
+
+  var FaceStims_male = _.flattenDeep([stim_high_male, stim_med_male, stim_low_male]);
+  preloadimages.push(FaceStims_male);
+
+  FaceStims_male = FaceStims_male.map(function(e) {return {imgHtml: "<img class='imgJudge' src='" + e + "'>"}});
+  FaceStims_male = _.shuffle(FaceStims_male); // randomize order
+
+  // randomly assigning either the female or the male list 
+  var FaceStims = jsPsych.randomization.sampleWithoutReplacement([FaceStims_fem, FaceStims_male], 1)[0];
+
+  // EXPERIMENT --------------------------------------------------------------------------------------------------------
+
+  /* FULL SCREEN MODE */
+  var activeFullscreen = {
+    message: "",
+    button_label: "To start the study, please switch to fullscreen",
+    type: 'fullscreen',
+    fullscreen_mode: true,
+    delay_after: 200,
+  };
+
+  /* CONSENT */
+  var consent_old = {
+    type: 'html-button-response',
+    stimulus: function() {
+        html = "";
+        html += "<h1>Informed consent</h1>";
+        html += "<p class='justify'>This study should take approximately <strong>XXX minutes</strong>. During this time, ";
+        html += "it is important that you remain fully <strong>focused</strong>.</p>";
+        html += "<p class='justify'>Your participation is voluntary, does not imply any risk, and your answers will ";
+        html += "be anonymous. You are free to withdraw from the study at any moment. After full completion, ";
+        html += "you will receive a monetary compensation as stated on Prolific. If you start this study, it "
+        html += "means that <b>you give you free and informed consent</b> to participate.</p>";
+        html += "<p class='justify'>This study is administered by Marine Rougier, researcher at Gent University (Belgium). ";
+        html += "If you have any question or comment, please contact me at: <strong>marine.rougier@ugent.be</strong></p>"; 
+        return html;
+    },
+    choices: ["I give my informed consent"],
+  };
+
+
+var check_consent = function(elem) {
+  if (document.getElementById('consent_checkbox').checked) {
+    return true;
+  }
+  else {
+    alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+    return false;
+  }
+  return false;
+};
+
+
+  // declare the block.
+var consent = {
+  type:'external-html',
+  url: "https://marinerougier.github.io/Ugent_1/consent_adapted.html",
+  cont_btn: "start",
+  check_fn: check_consent
+};
+
+  /* General INSTRUCTIONS */
+  var Instr_gene1 = {
+    type: "html-keyboard-response",
+    post_trial_gap: 300,
+    choices: [32],
+    stimulus: function() {
+      var html = "";
+      html += "<h1>Study of accuracy in person perception</h1>";
+      html += "<p class='justify'>Psychological studies have shown that <b>people do form detailed impressions of others "
+      html += "on the basis of a very few cues</b>. However, what determines the extent to which these impressions are generally ";
+      html += "accurate have not yet been completely identified. </br> </br> ";
+      html += "The purpose of the present study is to <b>compare your person perception accuracy (that is, the accuracy of an untrained ";
+      html += "person) with two other groups who had been trained in various interpersonal perception techniques</b>. These "
+      html += "groups are constituted of students in clinical psychology and professional clinical psychologists. </br></br>";
+      html += "Note that accuracy in person perception is a general ability varying among people. <b>Some individuals without training ";
+      html += "may be as accurate as some professional clinicians when making first-impression judgments based on noninterview material</b>. </br></br> ";
+      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to continue</p>";
+      return html;
+    },
+  };
+
+  var Instr_gene2 = {
+    type: "html-keyboard-response",
+    post_trial_gap: 300,
+    choices: [32],
+    stimulus: function() {
+      var html = "";
+      html += "<h1>Study of accuracy in person perception</h1>";
+      html += "<p class='justify'>Standard sets of photographs will be used as the basis for personality inferences. "
+      html += "The individuals depicted in the photographs are part of a group of <b>college students who are currently enrolled ";
+      html += "in a longitudinal study of personality development scheduled to continue ";
+      html += "into adulthood.</b><br><br> Therefore, it will be possible to <b>assess the accuracy of your judgments </b>against information ";
+      html += "currently available on the persons as well as the forthcoming information. </br></br>"
+      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to continue</p>";
+      return html;
+    },
+  };
+
+  /* PREVIEW CIS */
+  var previewstim = {
+    timeline_variables: FaceStims,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 800,
+    post_trial_gap: 100,
+    timeline: [{
+      type: 'html-keyboard-response',
+      stimulus: function() {return jsPsych.timelineVariable('imgHtml', true)},
+    }]
+  };
+
+  /* JUDGMENTS INSTRUCTIONS */
+  var jugmentInst_stim = {
+    type: "html-keyboard-response",
+    post_trial_gap: 300,
+    choices: [32],
+    stimulus: function() {
+      var html = "";
+      html += "<h1>Study of accuracy in person perception</h1>";
+      html += "<p class='justify'>Your specific task is to report several judgments on three persons.<br><br> ";
+      html += "<b>Given that this study is on person perception, we are not interested in your tact, politeness, or other ";
+      html += "factors that are usually important in everyday life situations. </br>";
+      html += "It is extremely important that you try to answer <b> as honestly and as spontaneously as possible.</b></br></br>";
+      html += "<p></br>Press <span class='light-keys'><kbd>space</kbd></span> to begin</p>";
+      return html;
+    },
+  };
+
+  // Judgments
+
+  // Traits from the meta-analysis of Eagly et al. (1991):
+
+  //social competence:
+  //traits
+  var scaleSociable = ["0</br>Not sociable at all", "1", "2", "3", "4", "5</br>Totally sociable"];
+  var scaleFunLoving = ["0</br>Not fun loving at all", "1","2", "3", "4", "5</br>Totally fun loving"];
+  // outcomes
+  var scaleLikable = ["0</br>Not likable at all", "1", "2", "3", "4", "5</br>Totally likable"];
+  var scalePopular = ["0</br>Not popular at all", "1", "2", "3", "4", "5</br>Totally popular"];
+
+  // intellectual competence:
+  //intellectual ability
+  var scaleIntelligent = ["0</br>Not intelligent at all", "1", "2", "3", "4", "5</br>Totally intelligent"];
+  var scaleSkillful = ["0</br>Not skillful at all", "1", "2", "3", "4", "5</br>Totally skillful"];
+  //rational mental style
+  var scaleRational = ["0</br>Not rational at all", "1", "2", "3", "4", "5</br>Totally rational"];
+  var scaleScientific = ["0</br>Not scientific at all", "1", "2", "3", "4", "5</br>Totally scientific"];
+  //high task motivation
+  var scaleAmbitious = ["0</br>Not ambitious at all", "1", "2", "3", "4", "5</br>Totally ambitious"];
+  var scaleHardWorking = ["0</br>Not hard-working at all", "1", "2", "3", "4", "5</br>Totally hard-working"];
+  //successful outcomes of task endeavors
+  var scaleGrade = ["0</br>Unlikely to receive good grades", "1", "2", "3", "4", "5</br>Likely to receive good grades"];
+  var scaleSuccess = ["0</br>Unlikely to achieve career success", "1", "2", "3", "4", "5</br>Likely to achieve career success"];
+
+  // concerns for others
+  // social sensitivity
+  var scaleSensitive = ["0</br>Not sensitive at all", "1", "2", "3", "4", "5</br>Totally sensitive"];
+  var scaleEmpathic = ["0</br>Not empathic at all", "1", "2", "3", "4", "5</br>Totally empathic"];
+  //nurturance
+  var scaleCompassionate = ["0</br>Not compassionate at all", "1", "2", "3", "4","5</br>Totally compassionate"];
+  var scaleGenerous = ["0</br>Not generous at all", "1", "2", "3", "4", "5</br>Totally generous"];
+  //lack of egotism
+  var scaleModest = ["0</br>Not modest at all", "1", "2", "3", "4", "5</br>Totally modest"];
+  var scaleEgoistic = ["0</br>Not egoistic at all", "1", "2", "3", "4", "5</br>Totally egoistic"];
+
+  // Integrity
+  // honesty
+  var scaleTrustworthy = ["0</br>Not trustworthy at all", "1", "2", "3", "4", "5</br>Totally trustworthy"];
+  var scaleHonest = ["0</br>Not honest at all", "1", "2", "3", "4", "5</br>Totally honest"];
+  // respect for norms
+  var scaleFaithful  = ["0</br>Unlikely to be faithful to the spouse", "1", "2", "3", "4", "5</br>Likely to be faithful to the spouse"];
+
+  // Adjustment
+  // good mental health
+  var scaleNormal = ["0</br>Not normal at all", "1", "2", "3", "4", "5</br>Totally normal"];
+  var scaleWellAdjusted = ["0</br>Not well-adjusted at all", "1", "2", "3", "4", "5</br>Totally well-adjusted"];
+  //happiness
+  var scaleSatisfied  = ["0</br>Not satisfied at all", "1", "2", "3", "4", "5</br>Totally satisfied"];
+  var scaleHappy  = ["0</br>Not happy at all", "1", "2", "3", "4", "5</br>Totally happy"];
+  // self-esteem
+  var scaleConfident  = ["0</br>Not confident at all", "1", "2", "3", "4", "5</br>Totally confident"];
+  var scaleSelfRegard  = ["0</br>Unlikely to have a positive self-regard", "1", "2", "3", "4", "5</br>Likely to have a positive self-regard"];
+  //well-being
+  var scaleMature  = ["0</br>Not mature at all", "1", "2", "3", "4", "5</br>Totally mature"];
+  var scaleHealthy  = ["0</br>Not healthy at all", "1", "2", "3", "4", "5</br>Totally healthy"];
+
+  // Potency
+  //power
+  var scaleStrong = ["0</br>Not strong at all", "1", "2", "3", "4", "5</br>Totally strong"];
+  var scaleSelfAssertive = ["0</br>Not self-assertive at all", "1", "2", "3", "4", "5</br>Totally self-assertive"];
+  // dominance
+  var scaleDominant  = ["0</br>Not dominant at all", "1", "2", "3", "4", "5</br>Totally dominant"];
+  var scaleLeader  = ["0</br>Unlikely to act as a leader", "1", "2", "3", "4", "5</br>Likely to act as a leader"];
+
+  // Vanity
+  var scaleVain = ["0</br>Not vain at all", "1", "2", "3", "4", "5</br>Totally vain"];
+  
+  // Traits from Bassili (1981) that correspond to the 8 which seemed to fit the vain, materialistic and sexually permissive orientation discussed by Dermer and Thiel:
+  // elitist/egalitarian, snobbish/approachable, shallow/deep, conceited/humble, materialistic/spiritual, 
+  // pompous/meek, promiscuous/prudish and boastfull /modest.
+  // To keep the same format not at all/totally, we select only one of the two labels
+
+  // Vain, materialistic and sexually permissive orientation :
+  var scaleElitist = ["0</br>Not elitist at all", "1", "2", "3", "4", "5</br>Totally elitist"];
+  var scaleSnobbish = ["0</br>Not snobbish at all", "1", "2", "3", "4", "5</br>Totally snobbish"];
+  var scaleShallow = ["0</br>Not shallow at all", "1", "2", "3", "4", "5</br>Totally shallow"];
+  var scaleHumble = ["0</br>Not humble", "1", "2", "3", "4", "5</br>Totally humble"];
+  var scaleMaterialistic = ["0</br>Not materialistic at all", "1", "2", "3", "4", "5</br>Totally materialistic"];
+  var scalePompous = ["0</br>Not pompous at all", "1", "2", "3", "4", "5</br>Totally pompous"];
+  var scalePrudish = ["0</br>Not prudish at all", "1", "2", "3", "4", "5</br>Totally prudish"];
+  var scaleModest = ["0</br>Not modest at all", "1", "2", "3", "4", "5</br>Totally modest"];
+
+  var judgments_subgroup = [];
+  FaceStims.map(function(ciImg){
+    var likert_trial = {
+        type: 'survey-likert',
+        preamble: ciImg.imgHtml,
+        questions: [
+          {prompt: "", labels: scaleSociable, required: true},
+          {prompt: "", labels: scaleFunLoving, required: true},
+          {prompt: "", labels: scaleLikable, required: true},
+          {prompt: "", labels: scalePopular, required: true},
+          {prompt: "", labels: scaleIntelligent, required: true},
+          {prompt: "", labels: scaleSkillful, required: true},
+          {prompt: "", labels: scaleRational, required: true},
+          {prompt: "", labels: scaleScientific, required: true},
+          {prompt: "", labels: scaleAmbitious, required: true},
+          {prompt: "", labels: scaleHardWorking, required: true},
+          {prompt: "", labels: scaleGrade, required: true},
+          {prompt: "", labels: scaleSuccess, required: true},
+          {prompt: "", labels: scaleSensitive, required: true},
+          {prompt: "", labels: scaleEmpathic, required: true},
+          {prompt: "", labels: scaleCompassionate, required: true},
+          {prompt: "", labels: scaleGenerous, required: true},
+          {prompt: "", labels: scaleModest, required: true},
+          {prompt: "", labels: scaleEgoistic, required: true},
+          {prompt: "", labels: scaleTrustworthy, required: true},
+          {prompt: "", labels: scaleHonest, required: true},
+          {prompt: "", labels: scaleFaithful, required: true},
+          {prompt: "", labels: scaleNormal, required: true},
+          {prompt: "", labels: scaleWellAdjusted, required: true},
+          {prompt: "", labels: scaleSatisfied, required: true},
+          {prompt: "", labels: scaleHappy, required: true},
+          {prompt: "", labels: scaleConfident, required: true},
+          {prompt: "", labels: scaleSelfRegard, required: true},
+          {prompt: "", labels: scaleMature, required: true},
+          {prompt: "", labels: scaleHealthy, required: true},
+          {prompt: "", labels: scaleStrong, required: true},
+          {prompt: "", labels: scaleSelfAssertive, required: true},
+          {prompt: "", labels: scaleDominant, required: true},
+          {prompt: "", labels: scaleLeader, required: true},
+          {prompt: "", labels: scaleVain, required: true},
+          {prompt: "", labels: scaleElitist, required: true},
+          {prompt: "", labels: scaleSnobbish, required: true},
+          {prompt: "", labels: scaleShallow, required: true},
+          {prompt: "", labels: scaleHumble, required: true},
+          {prompt: "", labels: scaleMaterialistic, required: true},
+          {prompt: "", labels: scalePompous, required: true},
+          {prompt: "", labels: scalePrudish, required: true},
+          {prompt: "", labels: scaleModest, required: true},
+        ],
+        randomize_question_order: true, /// !!!! does not work
+        button_label: 'Continue',
+        on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("max-width", "100%");
+          $(".jspsych-content").css("margin-top", "380px");
+          $(".jspsych-survey-likert-statement").css("margin", "0px");
+          $(".jspsych-survey-likert-statement").css("padding", "0px");
+          $(".jspsych-survey-likert-opts").css("padding", "0 0 10px");
+          $("#jspsych-survey-likert-next").css("margin-top", "10px");
+          $("#jspsych-survey-likert-form").css("width", "800px");
+          $("li").css("width", "9%");
+        //   $("li:first-of-type").css("width", "110px");
+        //   $("li:last-of-type").css("width", "110px");
+        },
+        on_finish: function(data) {
+          var parsed_response  = JSON.parse(data.responses);
+          data.sociable    = parsed_response.Q0 * 10;
+          data.funloving = parsed_response.Q1 * 10;
+          data.likable     = parsed_response.Q2 * 10;
+          data.popular     = parsed_response.Q3 * 10;
+          data.intelligent     = parsed_response.Q4 * 10;
+          data.skillful     = parsed_response.Q5 * 10;
+          data.rational     = parsed_response.Q6 * 10;
+          data.scientific     = parsed_response.Q7 * 10;
+          data.ambitious     = parsed_response.Q8 * 10;
+          data.hardworking     = parsed_response.Q9 * 10;
+          data.grade     = parsed_response.Q10 * 10;
+          data.success    = parsed_response.Q11 * 10;
+          data.sensitive     = parsed_response.Q12 * 10;
+          data.empathic     = parsed_response.Q13 * 10;
+          data.compassionate     = parsed_response.Q14 * 10;
+          data.generous     = parsed_response.Q15 * 10;
+          data.modest     = parsed_response.Q16 * 10;
+          data.egoistic     = parsed_response.Q17 * 10;
+          data.trustworthy     = parsed_response.Q18 * 10;
+          data.honest     = parsed_response.Q19 * 10;
+          data.faithful     = parsed_response.Q20 * 10;
+          data.normal     = parsed_response.Q21 * 10;
+          data.welladjusted     = parsed_response.Q22 * 10;
+          data.satisfied     = parsed_response.Q23 * 10;
+          data.happy     = parsed_response.Q24 * 10;
+          data.confident     = parsed_response.Q25 * 10;
+          data.selfregard     = parsed_response.Q26 * 10;
+          data.mature     = parsed_response.Q27 * 10;
+          data.healthy     = parsed_response.Q28 * 10;
+          data.strong     = parsed_response.Q29 * 10;
+          data.selfassertive     = parsed_response.Q30 * 10;
+          data.dominant     = parsed_response.Q31 * 10;
+          data.leader     = parsed_response.Q32 * 10;
+          data.vain     = parsed_response.Q33 * 10;
+          data.elitist     = parsed_response.Q34 * 10;
+          data.snobbish     = parsed_response.Q35 * 10;
+          data.shallow     = parsed_response.Q36 * 10;
+          data.humble     = parsed_response.Q37 * 10;
+          data.materialistic     = parsed_response.Q38 * 10;
+          data.pompous     = parsed_response.Q39 * 10;
+          data.prudish     = parsed_response.Q40 * 10;
+          data.modest     = parsed_response.Q41 * 10;
+          data.ci              = ciImg.imgHtml;
+        },
+    };
+    judgments_subgroup.push(likert_trial);
+  });
+
+
+
+  /* AGE */
+  var age = {
+      timeline: [{
+        type: 'survey-text',
+        questions: [{prompt: "How old are you?", rows: 1, columns: 10}],
+        button_label: "Continue",
+      }],
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+        },
+      loop_function: function(data){ 
+        var age = data.values()[0].responses;
+        var age = JSON.parse(age).Q0; 
+        if(age == ""){
+          alert("Please indicate your age"); 
+          return true; 
+        }
+      },
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              age: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
+
+  var gender = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Please indicate your gender:", options: ['Male', 'Female', 'Other'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              gender: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
+
+  var languageOptions = ['Native speaker', 'Very well', 'Well', 'Average', 'Badly', 'Very badly'];
+  var language = {
+        type: 'survey-multi-choice',
+        questions: [{ prompt: "How well do you speak english?", options: languageOptions, required: true }],
+        button_label: "continue",
+        on_finish: function (data) {
+            jsPsych.data.addProperties({
+                language: JSON.parse(data.responses).Q0,
+            });
+            console.log(data);
+        },
+    };
+
+  var Prolific_reported = {
+        timeline: [{
+            type: 'survey-text',
+            questions: [{ prompt: 'Please indicate your Prolific ID:', rows: 3, columns: 60 }],
+            button_label: "continue",
+        }],
+        loop_function: function (data) {
+            var res = data.values()[0].responses;
+            var res = JSON.parse(res).Q0;
+            if (res == "") {
+                alert("Please answer the question");
+                return true;
+            }
+        },
+        on_finish: function (data) {
+            jsPsych.data.addProperties({
+                Prolific_reported: JSON.parse(data.responses).Q0,
+            });
+        },
+    };
+
+  var comments = {
+        timeline: [{
+            type: 'survey-text',
+            questions: [{ prompt: 'Do you have any comments regarding this study? [Optional]', rows: 3, columns: 60 }],
+            button_label: "continue",
+        }],
+        on_finish: function (data) {
+            jsPsych.data.addProperties({
+                Comment: JSON.parse(data.responses).Q0,
+            });
+        },
+    };
+
+
+  /* EXIT FULLSCREEN MODE */
+  var exitFullscreen = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+  };
+
+  /* DEBRIEF */
+  var debrief = [];
+  debrief += "<h1>End of the study</h1>";
+  debrief += "<p class='justify'>Thank you for your participation! The aim of this study was to investigate whether your judgment ";
+  debrief += "of people depends on their physical attractiveness.</br></br> "
+  debrief += "You can copy this code on Prolific: <b>XXX</b> ";
+  debrief += "or you can click on the following link to validate your participation:</p>";
+  debrief += "<a href='https://app.prolific.ac/submissions/complete?cc=XXX' target='_blank'>click here</a>";
+
+
+  // TIMELINE ----------------------------------------------------------------------------------------------------------
+  timeline.push(activeFullscreen);
+  timeline.push(consent);
+  timeline.push(Instr_gene1);
+  timeline.push(Instr_gene2);
+  timeline.push(jugmentInst_stim);
+  timeline.push(judgments_subgroup);
+  timeline.push(age);
+  timeline.push(gender);
+  timeline.push(language);
+  timeline.push(Prolific_reported);
+  timeline.push(comments);
+  timeline.push(exitFullscreen);
+  
+  timeline = _.flattenDeep(timeline); // do not remove this!
+
+  // INITIALISE EXP ----------------------------------------------------------------------------------------------------
+  jsPsych.init({
+    timeline: timeline,
+    preload_images: preloadimages,
+    max_load_time: 500*1000,
+    exclusions: {
+      min_width: 800,
+      min_height: 600,
+    },
+    on_finish: function(data) { 
+      $("#jspsych-content").html("<img src='https://i.gifer.com/4V0b.gif'>");
+
+      /* Initialize Firebase */
+      var config = {
+        apiKey: "AIzaSyBwDr8n-RNCbBOk1lKIxw7AFgslXGcnQzM",
+        databaseURL: "https://postdocgent.firebaseio.com/"
+      };
+
+      firebase.initializeApp(config);
+      var database = firebase.database();
+      id = jsPsych.randomization.randomID(15); // short ID
+
+      /* jsPsych: add data to every trial */
+      jsPsych.data.addProperties({
+        prolificID: prolificID,
+        id: id,
+        //traitsOrder: traitsOrder,
+        totalTime: jsPsych.totalTime()
+      });
+
+      var subdata = data.filter({trial_type: 'survey-likert'}).csv();
+    //   jsPsych.data.displayData();
+
+      /* Send data to Firebase and redirect to Qualtrics */
+      database.ref("haloeffect_study1/" + id + "/").update({subdata}).then(function() { 
+        console.log("data sent!");
+        $("#jspsych-content").html(debrief);
+        //window.location = qlink; // redirect to qualtrics
+      });
+    }
+  });
+</script>
+
+</html>
