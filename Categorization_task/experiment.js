@@ -452,6 +452,38 @@ var iat_block_3_stim = [
   {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
 ]
 
@@ -511,7 +543,7 @@ var timeline = [];
 
 // fullscreen
 timeline.push(
-        //consent,
+        consent,
         instructions_gene,
         fullscreen_trial,
 			  hiding_cursor);

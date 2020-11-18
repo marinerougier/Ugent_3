@@ -449,6 +449,38 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
     };
     judgments_attractiveness.push(likert_trial);
   });
+  
+  var demand_awareness = {
+        timeline: [{
+            type: 'survey-text',
+            questions: [{ prompt: 'What do you think the researchers were trying to achieve in this study?', rows: 3, columns: 60 }],
+            button_label: "continue",
+        }],
+        loop_function: function (data) {
+            var res = data.values()[0].responses;
+            var res = JSON.parse(res).Q0;
+            if (res == "") {
+                alert("Please answer the question");
+                return true;
+            }
+        },
+        on_finish: function (data) {
+            jsPsych.data.addProperties({
+                demand_awareness: JSON.parse(data.responses).Q0,
+            });
+        },
+    };
+
+  var demand_compliance = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Earlier, we asked you to evaluate faces (on various traits/outcomes and attractiveness). Did you tell us the truth about how you evaluated the faces? Or did you just fake your response (i.e., tell us what you thought we wanted to hear)? Please be honest here (it will not affect payment in any way.", options: ['Yes - I faked my response based on what I thought the researchers wanted to find', 'No - my responses were based on how I genuinely felt', 'I do not know'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              demand_compliance: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
 
   /* AGE */
   var age = {
@@ -561,6 +593,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
   debrief += "Our goal is to test if we can find a similar effect (that is called the “attractiveness Halo effect”) in the present study "; 
   debrief += "with our set of pictures and our set of personality traits/outcomes. Our hypothesis was thus that the positivity of "; 
   debrief += "participants’ evaluations should increase as a function of the physical attractiveness of the faces. <br><br>";
+  debrief += "Moreover, we wanted to test if the categorization task (part 1) can influence this Halo effect (measure in part 2). ";
+  debrief += "Specifically, in the categorization task we asked you to categorize together words relating to 'attractiveness' and words ";
+  debrief += "relating to 'adjustment' and 'potency'. We expect that the category with which attractiveness shared the response key ";
+  debrief += "will lead to a larger Halo effect of attractivness (e.g., when adjustment and attractiveness shared the same response key ";
+  debrief += "the attractiveness of the face judged in the second part should impact more strongly traits relating to adjustment). </br></br>";
   debrief += "We would like to emphasize that there are no correct responses in this study: We were looking at people’s natural responses. ";
   debrief += "We hope you understand that we couldn't tell you all of this before because it would have ruined our study. ";
   debrief += "Again, your responses will be anonymous and will be analyzed as part of a group of responses.</br></br>";
@@ -581,6 +618,8 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
   timeline.push(judgments_dimensions);
   timeline.push(attractiveness_instr);
   timeline.push(judgments_attractiveness);
+  timeline.push(demand_awareness);
+  timeline.push(demand_compliance);
   timeline.push(age);
   timeline.push(gender);
   timeline.push(language);
