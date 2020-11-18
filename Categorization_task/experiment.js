@@ -382,7 +382,7 @@ var iat_instructions_1_1 = {
       "</tr>" +
       "<tr>" +
         "<td>Attractiveness</td>" +
-        "<td align='left'>Good-looking, Beautiful, Handsome, Lovely</td>" +
+        "<td align='left'>Good-looking, Hideous, Handsome, Ugly</td>" +
       "</tr>" +
       "<tr>" +
         "<td>Adjustment</td>" +
@@ -436,15 +436,23 @@ var iat_instructions_block_3 = {
 };
 
 // iat - stimuli ------------------------------------------------------------------------
-
-
 var iat_block_3_stim = [
-  {category: "att_empty",      stimulus: "ugly",         stim_key_association: att_side},
-  {category: "att_empty",      stimulus: "beautiful",    stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "adjusted",     stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "unadjusted",   stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "strong",       stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "weak",         stim_key_association: Potency_side_1st}
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
 ]
 
 
