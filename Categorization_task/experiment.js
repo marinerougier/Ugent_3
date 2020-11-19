@@ -112,8 +112,10 @@ if(!is_compatible) {
 // Variable input -----------------------------------------------------------------------
 // Variable used to define experimental condition.
 
-var iat_att    = jsPsych.randomization.sampleWithoutReplacement(["left", "right"], 1)[0];; // either "left" or "right"
-var iat_adju_pot = jsPsych.randomization.sampleWithoutReplacement(["left", "right"], 1)[0];; // either "left" or "right"
+//var iat_att    = jsPsych.randomization.sampleWithoutReplacement(["left", "right"], 1)[0];; // either "left" or "right"
+//var iat_adju_pot = jsPsych.randomization.sampleWithoutReplacement(["left", "right"], 1)[0];; // either "left" or "right"
+
+var pairing_att = jsPsych.randomization.sampleWithoutReplacement(["adjustment_left", "potency_left", "adjustment_right", "potency_right"], 1)[0];; // either "left" or "right"
 
  // cursor helper functions
 var hide_cursor = function() {
@@ -144,8 +146,7 @@ var showing_cursor = {
         .push()
         .set({jspsych_id: jspsych_id,
                prolificID: prolificID,
-               iat_att_side: iat_att,
-               iat_adju_pot_side: iat_adju_pot,
+               pairing_att: pairing_att,
                timestamp: firebase.database.ServerValue.TIMESTAMP})
   }
 
@@ -156,8 +157,7 @@ var showing_cursor = {
       .push()
       .set({jspsych_id: jspsych_id,
           prolificID: prolificID,
-          iat_att_side: iat_att,
-          iat_adju_pot_side: iat_adju_pot,
+          pairing_att: pairing_att,
           timestamp: firebase.database.ServerValue.TIMESTAMP,
           iat_trial_data: jsPsych.data.get().last().json()})
   }
@@ -171,7 +171,7 @@ var showing_cursor = {
      .set({jspsych_id: jspsych_id,
       prolificID: prolificID,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      iat_att_side: iat_att,
+      pairing_att: pairing_att,
       completion: completion,
       event_data: jsPsych.data.getInteractionData().json()})
   }
@@ -270,39 +270,52 @@ var block_3_right_label_top     = undefined;
 var block_3_left_label_bottom   = undefined;
 var block_3_right_label_bottom  = undefined;
 
-switch(iat_att) {
-  case "left":
+switch(pairing_att) {
+  case "adjustment_left":
         att_side               = "left";
         empty_side              = "right";
+        Adjust_side_1st = "left";
+        Potency_side_1st  = "right";
 
         block_3_left_label_bottom  = "Attractiveness";
         block_3_right_label_bottom = " ";
+        block_3_left_label_top   = "Adjustment";
+        block_3_right_label_top  = "Potency";
     break;
 
-  case "right":
+  case "adjustment_right":
         att_side               = "right";
         empty_side              = "left";
-
-        block_3_left_label_bottom  = " ";
-        block_3_right_label_bottom = "Attractiveness";
-    break;
-}
-
-switch(iat_adju_pot) {
-  case "left":
-      Adjust_side_1st = "left";
-      Potency_side_1st  = "right";
-
-    block_3_left_label_top   = "Adjustment";
-    block_3_right_label_top  = "Potency";
-    break;
-
-  case "right":
         Adjust_side_1st = "right";
         Potency_side_1st  = "left";
 
-    block_3_left_label_top   = "Potency";
-    block_3_right_label_top  = "Adjustment";
+        block_3_left_label_bottom  = " ";
+        block_3_right_label_bottom = "Attractiveness";
+        block_3_left_label_top   = "Potency";
+        block_3_right_label_top  = "Adjustment";
+    break;
+  case "potency_left":
+        att_side               = "left";
+        empty_side              = "right";
+        Adjust_side_1st = "right";
+        Potency_side_1st  = "left";
+
+        block_3_left_label_bottom  = "Attractiveness";
+        block_3_right_label_bottom = " ";
+        block_3_left_label_top   = "Potency";
+        block_3_right_label_top  = "Attractiveness";
+    break;
+
+  case "potency_right":
+        att_side               = "right";
+        empty_side              = "left";
+        Adjust_side_1st = "left";
+        Potency_side_1st  = "right";
+
+        block_3_left_label_bottom  = " ";
+        block_3_right_label_bottom = "Attractiveness";
+        block_3_left_label_top   = "Adjustment";
+        block_3_right_label_top  = "Potency";
     break;
 }
 
@@ -353,16 +366,16 @@ var iat_instructions_1 = {
   stimulus:
     "<h1 class ='custom-title'> Part 1: Categorization task </h1>" +
     "<p class='instructions'>In this task, you will be asked to sort words" +
-    " into groups as fast as you can using the keyboard. In the following screen you will be presented" +
+    " into groups as accurately as you can using the keyboard. In the following screen you will be presented" +
     " a list of category labels and the items that belong to each of these categories." +
     "</p>" +
     "<p class='instructions'>As you will see, you will have to sort" +
     " words depending on whether these ones refer to physical attractiveness, adjustment, or potency.</p>" +
     "<h3 class='instructions'>Instructions</h3>" +
     "<ul class='instructions'>" +
-      "<li>Keep fingers on the <span class='key'>E</span> and <span class='key'>I</span> keys to enable rapid response.</li>" +
+      "<li>Keep fingers on the <span class='key'>E</span> and <span class='key'>I</span>.</li>" +
       "<li>Labels at the top will tell you which items go with each key.</li>" +
-      "<li>Go as fast as you can.</li>" +
+      "<li>Be as accurate as you can.</li>" +
     "</ul>" +
     "<p>&nbsp;</p>" +
     "<p class = 'continue-instructions'>Press <span class='key'>space</span>" +
@@ -386,7 +399,7 @@ var iat_instructions_1_1 = {
       "</tr>" +
       "<tr>" +
         "<td>Adjustment</td>" +
-        "<td align='left'>Normal, Well-adjusted, Satisfied, Happy, Confident, Positive self-regard, Mature, Healthy</td>" +
+        "<td align='left'>Well-adjusted, Satisfied, Happy, Healthy</td>" +
       "</tr>" +
       "<tr>" +
       "<br>"+
@@ -436,18 +449,69 @@ var iat_instructions_block_3 = {
 };
 
 // iat - stimuli ------------------------------------------------------------------------
-var iat_block_3_stim = [
+var iat_block_3_stim_AttAdj = [
   {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
+]
+
+var iat_block_3_stim_AttPot = [
+  {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
+  {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
@@ -457,13 +521,13 @@ var iat_block_3_stim = [
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
@@ -473,13 +537,13 @@ var iat_block_3_stim = [
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Normal",              stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Confident",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Positive self-regard",stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Mature",              stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
@@ -487,9 +551,8 @@ var iat_block_3_stim = [
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
 ]
 
-
 // iat - block 3 (test) -----------------------------------------------------------------orginally 74 trials over 8 stim
-var iat_block_3_test = {
+var iat_block_3_AttAd = {
   timeline: [
     {
       type: 'iat-html',
@@ -512,10 +575,34 @@ var iat_block_3_test = {
     },
     save_iat_trial
   ],
-  timeline_variables: shuffleIATstims(iat_block_3_stim)
-  //timeline_variables: sample_n_iat(iat_block_3_stim, 5)  //here, put 60
+  timeline_variables: shuffleIATstims(iat_block_3_stim_AttAdj)
 }
 
+var iat_block_3_stim_AttPot = {
+  timeline: [
+    {
+      type: 'iat-html',
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      category: jsPsych.timelineVariable('category'),
+      label_category: ['att_empty', 'adjust_potency'],
+      stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+      html_when_wrong: '<span style="color: red; font-size: 80px">&times;</span>',
+      force_correct_key_press: true,
+      display_feedback: true,
+      left_category_label:  [block_3_left_label_top, block_3_left_label_bottom],
+      right_category_label: [block_3_right_label_top, block_3_right_label_bottom],
+      response_ends_trial: true,
+      data: {
+        iat_type: 'test',
+        iat_block: 3,
+        iat_label_left:  block_3_left_label_top  + "-" + block_3_left_label_bottom,
+        iat_label_right: block_3_right_label_top + "-" + block_3_right_label_bottom
+         }
+    },
+    save_iat_trial
+  ],
+  timeline_variables: shuffleIATstims(iat_block_3_stim_AttPot)
+}
 
 //
 var iat_instructions_2 = {
@@ -543,7 +630,7 @@ var timeline = [];
 
 // fullscreen
 timeline.push(
-        consent,
+        //consent,
         instructions_gene,
         fullscreen_trial,
 			  hiding_cursor);
@@ -551,12 +638,36 @@ timeline.push(
 // prolific verification
 timeline.push(save_id);
 
+switch(pairing_att) {
+  case "adjustment_left":
     timeline.push(iat_instructions_1,
                   iat_instructions_1_1,
                   iat_instructions_block_3, 
-                  iat_block_3_test,
+                  iat_block_3_AttAd,
                   iat_instructions_2);
-   
+break;
+  case "adjustment_right":
+    timeline.push(iat_instructions_1,
+                  iat_instructions_1_1,
+                  iat_instructions_block_3, 
+                  iat_block_3_AttAd,
+                  iat_instructions_2);  
+break;
+  case "potency_right":
+    timeline.push(iat_instructions_1,
+                  iat_instructions_1_1,
+                  iat_instructions_block_3, 
+                  iat_block_3_stim_AttPot,
+                  iat_instructions_2);  
+break;
+  case "potency_right":
+    timeline.push(iat_instructions_1,
+                  iat_instructions_1_1,
+                  iat_instructions_block_3, 
+                  iat_block_3_stim_AttPot,
+                  iat_instructions_2);  
+break;
+}
 
 timeline.push(showing_cursor);
 
@@ -585,7 +696,7 @@ if(is_compatible) {
           //taskOrder: TaskOrder,
         });
         window.location.href = "https://marinerougier.github.io/Ugent_3/Rating_task/rating_task.html?jspsych_id=" + jspsych_id + "?prolificID="+ 
-        prolificID + "?iat_att=" + iat_att + "?iat_adju_pot=" + iat_adju_pot;
+        prolificID + "?pairing_att=" + pairing_att;
     }
   });
 }

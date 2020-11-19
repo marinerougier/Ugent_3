@@ -56,8 +56,7 @@ DESCRIPTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   var preloadimages = [];
   var prolificID = jsPsych.data.getURLVariable("prolificID");
   var jspsych_id  = jsPsych.data.getURLVariable("jspsych_id");
-  var iat_att = jsPsych.data.getURLVariable("iat_att");
-  var iat_adju_pot = jsPsych.data.getURLVariable("iat_adju_pot");
+  var pairing_att = jsPsych.data.getURLVariable("pairing_att");
 
   if(prolificID == null) {prolificID = "999";}
   if(jspsych_id == null) {jspsych_id = "999";}
@@ -450,6 +449,22 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
     judgments_attractiveness.push(likert_trial);
   });
   
+  var key_memory = {
+      type: 'survey-multi-choice',
+      questions: [
+      {prompt: "What was the key you used to sort Attractiveness-related words?", options: ['E key', 'I key', 'I do not remember'], required: true},
+      {prompt: "What was the key you used to sort Adjustment-related words?", options: ['E key', 'I key', 'I do not remember'], required: true},
+      {prompt: "What was the key you used to sort Potency-related words?", options: ['E key', 'I key', 'I do not remember'], required: true}
+      ],
+      randomize_question_order: true, 
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              key_memory: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
+
   var demand_awareness = {
         timeline: [{
             type: 'survey-text',
@@ -470,6 +485,28 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
             });
         },
     };
+
+  var feature_awareness = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Did you notice that the faces you had to judge (during phase 2) varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              feature_awareness: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
+
+  var influence_awareness = {
+      type: 'survey-multi-choice',
+      questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment on the personality traits/outcomes?", options: ['Yes', 'No', 'I do not know'], required: true}],
+      button_label: "Continue",
+      on_finish: function(data) {
+          jsPsych.data.addProperties({
+              influence_awareness: JSON.parse(data.responses)["Q0"],
+          });
+      },
+  };
 
   var demand_compliance = {
       type: 'survey-multi-choice',
@@ -618,7 +655,10 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
   timeline.push(judgments_dimensions);
   timeline.push(attractiveness_instr);
   timeline.push(judgments_attractiveness);
+  timeline.push(key_memory);
   timeline.push(demand_awareness);
+  timeline.push(feature_awareness);
+  timeline.push(influence_awareness);
   timeline.push(demand_compliance);
   timeline.push(age);
   timeline.push(gender);
@@ -657,8 +697,7 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       jsPsych.data.addProperties({
         prolificID: prolificID,
         jspsych_id: jspsych_id,
-        iat_att: iat_att,
-        iat_adju_pot: iat_adju_pot,
+        pairing_att: pairing_att,
         totalTime: jsPsych.totalTime()
       });
 

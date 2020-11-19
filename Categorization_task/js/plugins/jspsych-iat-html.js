@@ -117,7 +117,7 @@
 
     var html_str = "";
 
-    html_str += "<div style='position: absolute; height: 20%; width: 100%; margin-left: auto; margin-right: auto; top: 42%; left: 0; right: 0'><p id='jspsych-iat-stim' class='" + trial.category + "'>" + trial.stimulus + "</p></div>";
+    html_str += "<div style='position: absolute; height: 20%; width: 100%; font-size: 23px; margin-left: auto; margin-right: auto; top: 42%; left: 0; right: 0'><p id='jspsych-iat-stim' class='" + trial.category + "'>" + trial.stimulus + "</p></div>";
 
     html_str += "<div id='trial_left_align' style='position: absolute; top: 18%; left: 20%'>";
 
