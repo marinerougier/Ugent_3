@@ -632,7 +632,7 @@ var timeline = [];
 
 // fullscreen
 timeline.push(
-        //consent,
+        consent,
         instructions_gene,
         fullscreen_trial,
 			  hiding_cursor);
