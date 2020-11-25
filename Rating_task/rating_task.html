@@ -452,9 +452,14 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
   var key_memory = {
       type: 'survey-multi-choice',
       questions: [
-      {prompt: "What was the category that shared the same response key as Attractiveness (in the categorization task)?", options: ['Adjustment', 'Potency'], required: true}],
+      {prompt: "In the Catgorization Task (the first task that you performed), What was the other category sharing a response key with Attractiveness?", options: ['Adjustment', 'Potency'], required: true}],
       randomize_question_order: true, 
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               key_memory: JSON.parse(data.responses)["Q0"],
@@ -476,6 +481,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
                 return true;
             }
         },
+        on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
         on_finish: function (data) {
             jsPsych.data.addProperties({
                 demand_awareness: JSON.parse(data.responses).Q0,
@@ -487,6 +497,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       type: 'survey-multi-choice',
       questions: [{prompt: "When we asked you to evaluate the faces on various traits/outcomes and attractiveness, did you notice that the faces varied on their physical attractiveness?", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               feature_awareness: JSON.parse(data.responses)["Q0"],
@@ -498,6 +513,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       type: 'survey-multi-choice',
       questions: [{prompt: "Do you think that this variation on attractiveness influenced your judgment <u>on the personality traits/outcomes?</u>", options: ['Yes', 'No', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               influence_awareness: JSON.parse(data.responses)["Q0"],
@@ -509,6 +529,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       type: 'survey-multi-choice',
       questions: [{prompt: "When we asked you to evaluate the faces, did you tell us the truth? Or did you just fake your response (i.e., tell us what you thought we wanted to hear)? Please be honest here (it will not affect payment in any way.", options: ['Yes - I faked my response based on what I thought the researchers wanted to find', 'No - my responses were based on how I genuinely felt', 'I do not know'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               demand_compliance: JSON.parse(data.responses)["Q0"],
@@ -547,6 +572,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
       type: 'survey-multi-choice',
       questions: [{prompt: "Please indicate your gender:", options: ['Male', 'Female', 'Other'], required: true}],
       button_label: "Continue",
+      on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
       on_finish: function(data) {
           jsPsych.data.addProperties({
               gender: JSON.parse(data.responses)["Q0"],
@@ -559,6 +589,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
         type: 'survey-multi-choice',
         questions: [{ prompt: "How well do you speak english?", options: languageOptions, required: true }],
         button_label: "continue",
+        on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
         on_finish: function (data) {
             jsPsych.data.addProperties({
                 language: JSON.parse(data.responses).Q0,
@@ -581,6 +616,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
                 return true;
             }
         },
+        on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
         on_finish: function (data) {
             jsPsych.data.addProperties({
                 Prolific_reported: JSON.parse(data.responses).Q0,
@@ -594,6 +634,11 @@ var scaleAttractiveness = ["-3</br>Extremely unattractive", "-2", "-1", "0", "1"
             questions: [{ prompt: 'Do you have comments regarding this study? [Optional]', rows: 3, columns: 60 }],
             button_label: "continue",
         }],
+        on_load: function() {
+          window.scrollTo(0, 0);
+          $(".jspsych-content").css("margin-top", "200px");
+          $(".jspsych-content").css("max-width", "90%");
+        },
         on_finish: function (data) {
             jsPsych.data.addProperties({
                 Comment: JSON.parse(data.responses).Q0,

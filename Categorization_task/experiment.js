@@ -245,7 +245,7 @@ var sample_n_iat = function(list, n) {
 // Switching to fullscreen --------------------------------------------------------------
 var fullscreen_trial = {
   type: 'fullscreen',
-  message:  'To start please switch again to full screen </br></br>',
+  message:  'To start please switch to full screen </br></br>',
   button_label: 'Switch to fullscreen',
   fullscreen_mode: true,
         on_load: function() {
@@ -369,8 +369,8 @@ var iat_instructions_1 = {
     " into groups as accurately as you can using the keyboard. In the following screen you will be presented" +
     " a list of category labels and the items that belong to each of these categories." +
     "</p>" +
-    "<p class='instructions'>As you will see, you will have to sort" +
-    " words depending on whether these ones refer to physical attractiveness, adjustment, or potency.</p>" +
+    "<p class='instructions'>As you will see, you will sort" +
+    " words depending on whether these ones refer to physical attractiveness, to adjustment, or to potency.</p>" +
     "<h3 class='instructions'>Instructions</h3>" +
     "<ul class='instructions'>" +
       "<li>Keep fingers on the <span class='key'>E</span> and <span class='key'>I</span>.</li>" +
