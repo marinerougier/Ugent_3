@@ -399,12 +399,12 @@ var iat_instructions_1_1 = {
       "</tr>" +
       "<tr>" +
         "<td>Adjustment</td>" +
-        "<td align='left'>Well-adjusted, Satisfied, Happy, Healthy</td>" +
+        "<td align='left'>Maladjusted, Satisfied, Miserable, Healthy</td>" +
       "</tr>" +
       "<tr>" +
       "<br>"+
         "<td>Potency</td>" +
-        "<td align='left'>Strong, Self-assertive, Dominant, Leader</td>" +
+        "<td align='left'>Weak, Self-assertive, Submissive, Leader</td>" +
       "</tr>" +
     "</table>" +
     "<br>" +
@@ -414,6 +414,8 @@ var iat_instructions_1_1 = {
   choices: [32]
 };
 
+// Potency: here, we changed Strong = Weak & Dominant = submissive
+// Adjustment: here, we changed Well-adjusted = maladjusted & Happy = Miserable
 
 
 // iat block instructions ---------------------------------------------------------------
@@ -454,49 +456,49 @@ var iat_block_3_stim_AttAdj = [
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
   {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
   {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
 ]
 
@@ -505,49 +507,49 @@ var iat_block_3_stim_AttPot = [
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
   {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st},
   {category: "att_empty",      stimulus: "Good-looking",        stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Hideous",             stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Handsome",            stim_key_association: att_side},
   {category: "att_empty",      stimulus: "Ugly",                stim_key_association: att_side},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Well-adjusted",       stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Maladjusted",       stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Satisfied",           stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Happy",               stim_key_association: Adjust_side_1st},
+  {category: "adjust_potency", stimulus: "Miserable",               stim_key_association: Adjust_side_1st},
   {category: "adjust_potency", stimulus: "Healthy",             stim_key_association: Adjust_side_1st},
-  {category: "adjust_potency", stimulus: "Strong",              stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Weak",              stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Self-assertive",      stim_key_association: Potency_side_1st},
-  {category: "adjust_potency", stimulus: "Dominant",            stim_key_association: Potency_side_1st},
+  {category: "adjust_potency", stimulus: "Submissive",            stim_key_association: Potency_side_1st},
   {category: "adjust_potency", stimulus: "Leader",              stim_key_association: Potency_side_1st}
 ]
 
