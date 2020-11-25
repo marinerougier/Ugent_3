@@ -655,7 +655,7 @@ break;
                   iat_block_3_AttAd,
                   iat_instructions_2);  
 break;
-  case "potency_right":
+  case "potency_left":
     timeline.push(iat_instructions_1,
                   iat_instructions_1_1,
                   iat_instructions_block_3, 
