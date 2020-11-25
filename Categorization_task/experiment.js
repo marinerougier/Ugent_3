@@ -303,7 +303,7 @@ switch(pairing_att) {
         block_3_left_label_bottom  = "Attractiveness";
         block_3_right_label_bottom = " ";
         block_3_left_label_top   = "Potency";
-        block_3_right_label_top  = "Attractiveness";
+        block_3_right_label_top  = "Adjustment";
     break;
 
   case "potency_right":
