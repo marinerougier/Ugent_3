@@ -694,11 +694,8 @@ if(is_compatible) {
       },
     on_finish: function() {
         saving_browser_events(completion = true);
-        jsPsych.data.addProperties({
-          //taskOrder: TaskOrder,
-        });
-        window.location.href = "https://marinerougier.github.io/Ugent_3/Rating_task/rating_task.html?jspsych_id=" + jspsych_id + "?prolificID="+ 
-        prolificID + "?pairing_att=" + pairing_att;
+        window.location.href = "https://marinerougier.github.io/Ugent_3/Rating_task/rating_task.html?jspsych_id=" + jspsych_id + "&prolificID="+ 
+        prolificID + "&pairing_att=" + pairing_att ;
     }
   });
 }
