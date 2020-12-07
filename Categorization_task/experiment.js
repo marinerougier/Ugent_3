@@ -153,7 +153,7 @@ var showing_cursor = {
   // iat trial ----------------------------------------------------------------------------
   var saving_iat_trial = function(){
     database
-      .ref("iat_trial/")
+      .ref("iat_trial_2/")
       .push()
       .set({jspsych_id: jspsych_id,
           prolificID: prolificID,
